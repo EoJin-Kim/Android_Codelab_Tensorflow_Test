@@ -39,9 +39,10 @@ class BlankFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.img_meal_one, BitmapFactory.Options().apply {
-            inMutable = true
-        })
+//        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.img_meal_one, BitmapFactory.Options().apply {
+//            inMutable = true
+//        })
+        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.img_meal_one)
         cls.classify(bitmap)
     }
 

@@ -2,9 +2,11 @@ package com.ej.tensorflowlitetest.tflite
 
 import android.content.Context
 import android.graphics.Bitmap
+import org.tensorflow.lite.DataType
 import org.tensorflow.lite.Interpreter
 import org.tensorflow.lite.Tensor
 import org.tensorflow.lite.support.common.FileUtil
+import org.tensorflow.lite.support.common.ops.CastOp
 import org.tensorflow.lite.support.common.ops.NormalizeOp
 import org.tensorflow.lite.support.image.ImageProcessor
 import org.tensorflow.lite.support.image.TensorImage
@@ -26,6 +28,8 @@ class ClassifierWithSupport constructor(
     var modelInputHeight : Int = 0
     var modelInputChannel : Int = 0
 
+    lateinit var modelInputDataType : DataType
+
     lateinit var inputImage : TensorImage
     lateinit var outputBuffer : TensorBuffer
 
@@ -44,7 +48,8 @@ class ClassifierWithSupport constructor(
         modelInputWidth = inputShape[1]
         modelInputHeight = inputShape[2]
 
-        inputImage = TensorImage(inputTensor.dataType())
+        modelInputDataType = inputTensor.dataType()
+        inputImage = TensorImage(modelInputDataType)
 
         val outputTensor = interpreter.getOutputTensor(0)
         outputBuffer = TensorBuffer.createFixedSize(outputTensor.shape(), outputTensor.dataType())
@@ -62,6 +67,7 @@ class ClassifierWithSupport constructor(
         val imageProcessor = ImageProcessor.Builder()
             .add(ResizeOp(modelInputWidth, modelInputHeight, ResizeOp.ResizeMethod.NEAREST_NEIGHBOR))
             .add(NormalizeOp(0.0f, 255.0f))
+            .add(CastOp(modelInputDataType))
             .build()
 
         return imageProcessor.process(inputImage)
@@ -69,6 +75,10 @@ class ClassifierWithSupport constructor(
 
     fun classify(image: Bitmap) {
         inputImage = loadImage(image)
+
+        val height = inputImage.height
+        val width = inputImage.width
+        val size = outputBuffer.flatSize
         interpreter.run(inputImage.buffer, outputBuffer.buffer.rewind())
 
         return
