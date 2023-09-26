@@ -33,6 +33,9 @@ class ClassifierWithSupport constructor(
     lateinit var inputImage : TensorImage
     lateinit var outputBuffer : TensorBuffer
 
+    lateinit var modelOutputDataType : DataType
+    lateinit var modelOutputShape : IntArray
+
     @Throws(IOException::class)
     fun init() {
         val model = FileUtil.loadMappedFile(context, MODEL_NAME)
@@ -52,6 +55,8 @@ class ClassifierWithSupport constructor(
         inputImage = TensorImage(modelInputDataType)
 
         val outputTensor = interpreter.getOutputTensor(0)
+        modelOutputDataType = outputTensor.dataType()
+        modelOutputShape = outputTensor.shape()
         outputBuffer = TensorBuffer.createFixedSize(outputTensor.shape(), outputTensor.dataType())
 
     }
@@ -63,7 +68,6 @@ class ClassifierWithSupport constructor(
         } else {
             inputImage.load(bitmap)
         }
-
         val imageProcessor = ImageProcessor.Builder()
             .add(ResizeOp(modelInputWidth, modelInputHeight, ResizeOp.ResizeMethod.NEAREST_NEIGHBOR))
             .add(NormalizeOp(0.0f, 255.0f))
@@ -73,15 +77,36 @@ class ClassifierWithSupport constructor(
         return imageProcessor.process(inputImage)
     }
 
-    fun classify(image: Bitmap) {
+    fun classify(image: Bitmap) : Bitmap{
         inputImage = loadImage(image)
 
         val height = inputImage.height
         val width = inputImage.width
         val size = outputBuffer.flatSize
-        interpreter.run(inputImage.buffer, outputBuffer.buffer.rewind())
 
-        return
+        val outputMap = HashMap<Int, Any>()
+        val outputBox = Array(modelOutputShape[0]){
+            Array(modelOutputShape[1]){
+                FloatArray(modelOutputShape[2])
+            }
+        }
+        val outputCategory = Array(modelOutputShape[0]){
+            FloatArray(modelOutputShape[1])
+        }
+        val outputScore = Array(modelOutputShape[0]){
+            FloatArray(modelOutputShape[1])
+        }
+        val outputCount = FloatArray(modelOutputShape[0])
+
+        outputMap[0] = outputBox
+        outputMap[1] = outputCategory
+        outputMap[2] = outputScore
+        outputMap[3] = outputCount
+
+        interpreter.runForMultipleInputsOutputs(arrayOf<Any>(inputImage.buffer), outputMap)
+
+//        interpreter.run(inputImage.buffer, outputBuffer.buffer.rewind())
+        return inputImage.bitmap
     }
 
 

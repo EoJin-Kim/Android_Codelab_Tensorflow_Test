@@ -42,8 +42,11 @@ class BlankFragment : Fragment() {
 //        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.img_meal_one, BitmapFactory.Options().apply {
 //            inMutable = true
 //        })
-        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.img_meal_one)
-        cls.classify(bitmap)
+        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.img_meal_one, BitmapFactory.Options().apply {
+            inMutable = true
+        })
+        val resultBitmap = cls.classify(bitmap)
+        binding.imageView.setImageBitmap(resultBitmap)
     }
 
 
