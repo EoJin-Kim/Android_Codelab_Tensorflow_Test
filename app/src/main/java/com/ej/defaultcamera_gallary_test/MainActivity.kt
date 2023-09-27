@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
 
         val transition = supportFragmentManager.beginTransaction()
-        val fragment = BlankFragment.newInstance()
+        val fragment = Blank3Fragment.newInstance()
         transition.replace(R.id.fragmentContainerView, fragment)
         transition.commit()
 
