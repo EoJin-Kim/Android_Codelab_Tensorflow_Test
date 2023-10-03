@@ -42,6 +42,7 @@ class ClassifierWithSupport3 constructor(
 
     lateinit var modelOutputDataType : DataType
     lateinit var modelOutputShape : IntArray
+    val labels = mutableListOf<String>()
 
     @Throws(IOException::class)
     fun init() {
@@ -56,7 +57,7 @@ class ClassifierWithSupport3 constructor(
         BufferedReader(InputStreamReader(metadata.getAssociatedFile("labelmap.txt"), Charset.defaultCharset())).use { br ->
             var line: String?
             while (br.readLine().also { line = it } != null) {
-                Log.w("EJTAG", line!!)
+                labels.add(line!!)
             }
         }
     }

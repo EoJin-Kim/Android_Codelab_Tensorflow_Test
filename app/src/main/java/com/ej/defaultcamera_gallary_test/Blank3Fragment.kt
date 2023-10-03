@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import com.ej.defaultcamera_gallary_test.databinding.FragmentBlank3Binding
 import com.ej.defaultcamera_gallary_test.databinding.FragmentBlankBinding
 import com.ej.defaultcamera_gallary_test.tflite.ClassifierWithSupport3
 import com.ej.tensorflowlitetest.tflite.ClassifierWithSupport
@@ -18,7 +19,7 @@ import java.nio.channels.FileChannel
 
 
 class Blank3Fragment : Fragment() {
-    lateinit var binding : FragmentBlankBinding
+    lateinit var binding : FragmentBlank3Binding
 
 //    lateinit var cls : ClassifierWithModel
     lateinit var cls : ClassifierWithSupport3
@@ -27,7 +28,7 @@ class Blank3Fragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding =  DataBindingUtil.inflate(inflater,R.layout.fragment_blank,container,false)
+        binding =  DataBindingUtil.inflate(inflater,R.layout.fragment_blank3,container,false)
         binding.lifecycleOwner = this.viewLifecycleOwner
 
 //        cls = ClassifierWithModel(requireContext())
@@ -46,7 +47,7 @@ class Blank3Fragment : Fragment() {
 //        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.img_meal_one, BitmapFactory.Options().apply {
 //            inMutable = true
 //        })
-        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.img_meal_one, BitmapFactory.Options().apply {
+        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.foreign, BitmapFactory.Options().apply {
             inMutable = true
         })
         val resultBitmap = cls.classify(bitmap)
