@@ -10,6 +10,7 @@ import org.tensorflow.lite.Tensor
 import org.tensorflow.lite.support.common.FileUtil
 import org.tensorflow.lite.support.common.ops.CastOp
 import org.tensorflow.lite.support.common.ops.NormalizeOp
+import org.tensorflow.lite.support.common.ops.QuantizeOp
 import org.tensorflow.lite.support.image.ImageProcessor
 import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.support.image.ops.ResizeOp
@@ -86,11 +87,32 @@ class ClassifierWithSupport3 constructor(
         } else {
             inputImage.load(bitmap)
         }
-        val imageProcessor = ImageProcessor.Builder()
-            .add(ResizeOp(modelInputWidth, modelInputHeight, ResizeOp.ResizeMethod.NEAREST_NEIGHBOR))
-            .add(NormalizeOp(0.0f, 255.0f))
-            .add(CastOp(modelInputDataType))
-            .build()
+        val imageProcessor = if (modelInputDataType == DataType.UINT8) {
+            ImageProcessor.Builder()
+                .add(
+                    ResizeOp(
+                        modelInputWidth,
+                        modelInputHeight,
+                        ResizeOp.ResizeMethod.NEAREST_NEIGHBOR
+                    )
+                )
+                .add(NormalizeOp(0.0f, 255.0f))
+                .add(QuantizeOp(128.0f, 1/128.0f))
+                .add(CastOp(modelInputDataType))
+                .build()
+        } else {
+            ImageProcessor.Builder()
+                .add(
+                    ResizeOp(
+                        modelInputWidth,
+                        modelInputHeight,
+                        ResizeOp.ResizeMethod.NEAREST_NEIGHBOR
+                    )
+                )
+                .add(NormalizeOp(0.0f, 255.0f))
+                .add(CastOp(modelInputDataType))
+                .build()
+        }
 
         return imageProcessor.process(inputImage)
     }
