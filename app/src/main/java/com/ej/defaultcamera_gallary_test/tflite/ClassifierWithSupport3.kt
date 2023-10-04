@@ -14,6 +14,7 @@ import org.tensorflow.lite.support.common.ops.QuantizeOp
 import org.tensorflow.lite.support.image.ImageProcessor
 import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.support.image.ops.ResizeOp
+import org.tensorflow.lite.support.image.ops.ResizeWithCropOrPadOp
 import org.tensorflow.lite.support.metadata.MetadataExtractor
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
 import java.io.BufferedReader
@@ -87,8 +88,10 @@ class ClassifierWithSupport3 constructor(
         } else {
             inputImage.load(bitmap)
         }
+        val cropSize = Math.min(bitmap.width, bitmap.height)
         val imageProcessor = if (modelInputDataType == DataType.UINT8) {
             ImageProcessor.Builder()
+//                .add(ResizeWithCropOrPadOp(cropSize, cropSize))
                 .add(
                     ResizeOp(
                         modelInputWidth,
@@ -117,7 +120,7 @@ class ClassifierWithSupport3 constructor(
         return imageProcessor.process(inputImage)
     }
 
-    fun classify(image: Bitmap) : Bitmap{
+    fun classify(image: Bitmap) : MutableList<Pair<String, FloatArray>>{
         inputImage = loadImage(image)
 
         val height = inputImage.height
@@ -146,7 +149,18 @@ class ClassifierWithSupport3 constructor(
         interpreter.runForMultipleInputsOutputs(arrayOf<Any>(inputImage.buffer), outputMap)
 
 //        interpreter.run(inputImage.buffer, outputBuffer.buffer.rewind())
-        return inputImage.bitmap
+
+        val result = mutableListOf<Pair<String, FloatArray>>()
+        for (i in outputScore[0].indices){
+            if (outputScore[0][i] > 0.5) {
+                val category = labels[i]
+                val boundingBox = outputBox[0][i]
+
+                val pair : Pair<String, FloatArray> = Pair(category, boundingBox)
+                result.add(pair)
+            }
+        }
+        return result
     }
 
 
