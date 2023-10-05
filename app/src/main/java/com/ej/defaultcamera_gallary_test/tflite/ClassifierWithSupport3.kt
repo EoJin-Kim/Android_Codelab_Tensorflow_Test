@@ -91,7 +91,7 @@ class ClassifierWithSupport3 constructor(
         val cropSize = Math.min(bitmap.width, bitmap.height)
         val imageProcessor = if (modelInputDataType == DataType.UINT8) {
             ImageProcessor.Builder()
-//                .add(ResizeWithCropOrPadOp(cropSize, cropSize))
+                .add(ResizeWithCropOrPadOp(cropSize, cropSize))
                 .add(
                     ResizeOp(
                         modelInputWidth,
@@ -154,6 +154,8 @@ class ClassifierWithSupport3 constructor(
         for (i in outputScore[0].indices){
             if (outputScore[0][i] > 0.5) {
                 val category = labels[outputCategory[0][i].toInt()]
+
+                if(category == "person") continue
                 val boundingBox = outputBox[0][i]
 
                 val pair : Pair<String, FloatArray> = Pair(category, boundingBox)
