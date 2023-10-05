@@ -1,12 +1,15 @@
 package com.ej.defaultcamera_gallary_test
 
+import android.R.attr.left
+import android.R.attr.right
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
-import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.ej.defaultcamera_gallary_test.databinding.FragmentBlank3Binding
@@ -50,27 +53,34 @@ class Blank3Fragment : Fragment() {
             inMutable = true
         })
 
-        binding.imageView.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                // 크기가 확정되면 이 리스너가 호출됩니다.
+        val imageBitmap = (binding.imageView.drawable as BitmapDrawable).bitmap
+        imageHeight = imageBitmap.height
+        imageWidth = imageBitmap.width
 
-                imageHeight = binding.imageView.height
-                imageWidth = binding.imageView.width
+        val result = cls.classify(bitmap)
+        val resultOne = result[1]
 
-                binding.imageView.viewTreeObserver.removeOnGlobalLayoutListener(this)
+        val boundingBoxTop = if(resultOne.second[0]<0) 0f else resultOne.second[0]
+        val boundingBoxLeft = if(resultOne.second[1]<0) 0f else resultOne.second[1]
+        val boundingBoxBottom = if(resultOne.second[2]>1) 1f else resultOne.second[2]
+        val boundingBoxRight = if(resultOne.second[3]>1) 1f else resultOne.second[3]
 
-                val result = cls.classify(bitmap)
-                val resultOne = result[0]
-                val yMin = resultOne.second[0]*imageHeight
-                val xMin = resultOne.second[1]*imageWidth
-                val yMax = resultOne.second[3]*imageHeight
-                val xMax = resultOne.second[4]*imageWidth
+        val top = boundingBoxTop*imageHeight
+        val left = boundingBoxLeft*imageWidth
+        val bottom = boundingBoxBottom*imageHeight
+        val right = boundingBoxRight * imageWidth
 
+        val cropLeft = left.toInt()
+        val cropTop = top.toInt()
+        val cropWidth = (right - left).toInt()
+        val cropHeight = (bottom - top).toInt()
+        val croppedBitmap: Bitmap = Bitmap.createBitmap(imageBitmap, cropLeft, cropTop, cropWidth, cropHeight)
 
-
+        activity?.let {
+            it.runOnUiThread {
+                binding.imageView2.setImageBitmap(croppedBitmap)
             }
-        })
-
+        }
     }
 
 

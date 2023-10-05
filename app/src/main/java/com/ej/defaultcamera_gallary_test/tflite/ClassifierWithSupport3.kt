@@ -153,7 +153,7 @@ class ClassifierWithSupport3 constructor(
         val result = mutableListOf<Pair<String, FloatArray>>()
         for (i in outputScore[0].indices){
             if (outputScore[0][i] > 0.5) {
-                val category = labels[i]
+                val category = labels[outputCategory[0][i].toInt()]
                 val boundingBox = outputBox[0][i]
 
                 val pair : Pair<String, FloatArray> = Pair(category, boundingBox)
