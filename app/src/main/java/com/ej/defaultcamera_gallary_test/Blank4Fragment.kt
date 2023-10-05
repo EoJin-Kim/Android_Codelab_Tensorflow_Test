@@ -19,6 +19,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.ej.defaultcamera_gallary_test.databinding.FragmentBlank4Binding
 import com.ej.defaultcamera_gallary_test.tflite.ClassifierWithSupport3
+import com.ej.defaultcamera_gallary_test.tflite.ClassifierWithSupport4
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.util.concurrent.ExecutorService
@@ -32,7 +33,7 @@ class Blank4Fragment : Fragment() {
     private lateinit var cameraExecutor: ExecutorService
 
 //    lateinit var cls : ClassifierWithModel
-    lateinit var cls : ClassifierWithSupport3
+    lateinit var cls : ClassifierWithSupport4
 
     var imageHeight = 0
     var imageWidth = 0
@@ -41,11 +42,7 @@ class Blank4Fragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         // Request camera permissions
-        if (allPermissionsGranted()) {
-            startCamera()
-        } else {
-            ActivityCompat.requestPermissions(requireActivity(), REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
-        }
+
 
 
         cameraExecutor = Executors.newSingleThreadExecutor()
@@ -60,11 +57,17 @@ class Blank4Fragment : Fragment() {
         binding.lifecycleOwner = this.viewLifecycleOwner
 
 //        cls = ClassifierWithModel(requireContext())
-        cls = ClassifierWithSupport3(requireContext())
+        cls = ClassifierWithSupport4(requireContext())
         try {
             cls.init()
         } catch (e : IOException) {
             e.printStackTrace()
+        }
+
+        if (allPermissionsGranted()) {
+            startCamera()
+        } else {
+            ActivityCompat.requestPermissions(requireActivity(), REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
         }
 
         return binding.root
