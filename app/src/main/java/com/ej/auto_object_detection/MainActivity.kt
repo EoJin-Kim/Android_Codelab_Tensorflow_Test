@@ -1,10 +1,10 @@
-package com.ej.defaultcamera_gallary_test
+package com.ej.auto_object_detection
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.databinding.DataBindingUtil
-import com.ej.defaultcamera_gallary_test.databinding.ActivityMainBinding
+import com.ej.auto_object_detection.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding

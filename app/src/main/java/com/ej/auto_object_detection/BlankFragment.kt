@@ -1,4 +1,4 @@
-package com.ej.defaultcamera_gallary_test
+package com.ej.auto_object_detection
 
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -7,8 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import com.ej.defaultcamera_gallary_test.databinding.FragmentBlankBinding
-import com.ej.defaultcamera_gallary_test.tflite.ClassifierWithModel
+import com.ej.auto_object_detection.databinding.FragmentBlankBinding
 import com.ej.tensorflowlitetest.tflite.ClassifierWithSupport
 import java.io.IOException
 

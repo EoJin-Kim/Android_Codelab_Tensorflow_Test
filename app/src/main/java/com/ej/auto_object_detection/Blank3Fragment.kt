@@ -1,7 +1,5 @@
-package com.ej.defaultcamera_gallary_test
+package com.ej.auto_object_detection
 
-import android.R.attr.left
-import android.R.attr.right
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
@@ -9,11 +7,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import com.ej.defaultcamera_gallary_test.databinding.FragmentBlank3Binding
-import com.ej.defaultcamera_gallary_test.tflite.ClassifierWithSupport3
+import com.ej.auto_object_detection.databinding.FragmentBlank3Binding
+import com.ej.auto_object_detection.tflite.ClassifierWithSupport3
 import java.io.IOException
 
 

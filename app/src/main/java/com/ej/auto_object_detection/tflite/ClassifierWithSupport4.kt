@@ -1,9 +1,8 @@
-package com.ej.defaultcamera_gallary_test.tflite
+package com.ej.auto_object_detection.tflite
 
 import android.content.Context
 import android.content.res.AssetManager
 import android.graphics.Bitmap
-import android.util.Log
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.Interpreter
 import org.tensorflow.lite.Tensor
@@ -200,7 +199,7 @@ class ClassifierWithSupport4 constructor(
 
 
     companion object {
-        val MODEL_NAME = "object_labeler.tflite"
+        val MODEL_NAME = "efficient.tflite"
 
     }
 }

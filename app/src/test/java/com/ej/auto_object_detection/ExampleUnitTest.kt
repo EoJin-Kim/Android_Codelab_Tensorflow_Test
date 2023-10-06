@@ -1,4 +1,4 @@
-package com.ej.defaultcamera_gallary_test
+package com.ej.auto_object_detection
 
 import org.junit.Test
 

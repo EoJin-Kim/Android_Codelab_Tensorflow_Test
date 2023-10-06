@@ -1,4 +1,4 @@
-package com.ej.defaultcamera_gallary_test
+package com.ej.auto_object_detection
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

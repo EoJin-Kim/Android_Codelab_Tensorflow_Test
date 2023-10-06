@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.ej.defaultcamera_gallary_test'
+    namespace 'com.ej.auto_object_detection'
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.ej.defaultcamera_gallary_test"
+        applicationId "com.ej.auto_object_detection"
         minSdk 21
         targetSdk 32
         versionCode 1

@@ -1,9 +1,8 @@
-package com.ej.defaultcamera_gallary_test
+package com.ej.auto_object_detection
 
 import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.*
-import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -17,9 +16,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import com.ej.defaultcamera_gallary_test.databinding.FragmentBlank4Binding
-import com.ej.defaultcamera_gallary_test.tflite.ClassifierWithSupport3
-import com.ej.defaultcamera_gallary_test.tflite.ClassifierWithSupport4
+import com.ej.auto_object_detection.databinding.FragmentBlank4Binding
+import com.ej.auto_object_detection.tflite.ClassifierWithSupport4
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.util.concurrent.ExecutorService
