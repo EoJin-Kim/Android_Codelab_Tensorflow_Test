@@ -12,5 +12,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "DefaultCamera_Gallary_Test"
+rootProject.name = "Auto_Object_Detection"
 include ':app'
